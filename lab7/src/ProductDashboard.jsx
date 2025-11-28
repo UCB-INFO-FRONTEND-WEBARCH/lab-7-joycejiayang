@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { products as initialProducts } from "./data";
 import ProductTable from "./ProductTable";
 
@@ -18,14 +18,16 @@ function ProductDashboard() {
   // - filterText
   // - category
   // change.
-  console.log("Filtering products...");
-  const filteredProducts = items
-    .filter((p) =>
-      p.name.toLowerCase().includes(filterText.toLowerCase())
-    )
-    .filter((p) =>
-      category === "all" ? true : p.category === category
-    );
+  const filteredProducts = useMemo(() => {
+      console.log("Filtering products...");
+      return items
+        .filter((p) =>
+          p.name.toLowerCase().includes(filterText.toLowerCase())
+        )
+        .filter((p) =>
+          category === "all" ? true : p.category === category
+        );
+  }, [items, filterText, category])
 
   // TODO 2:
   // The total price calculation is also heavy and runs on **every render**.
