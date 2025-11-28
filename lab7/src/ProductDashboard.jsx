@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { products as initialProducts } from "./data";
 import ProductTable from "./ProductTable";
 
@@ -59,7 +59,14 @@ function ProductDashboard() {
   //
   // Then in JSX:
   // <ProductTable onToggleFavorite={handleToggleFavorite} />
-  
+  const handleToggleFavorite = useCallback((id) => {
+    setItems(prev => 
+      prev.map(p =>
+        p.id === id ? { ...p, favorite: !p.favorite } : p
+      )
+    )
+  }, [setItems]);
+    
   return (
     <div style={{ padding: "20px" }}>
       <h1>Product Dashboard</h1>
@@ -105,13 +112,7 @@ function ProductDashboard() {
         products={filteredProducts}
         // TODO 3 (continued):
         // Replace this inline handler with the memoized one you create.
-        onToggleFavorite={(id) =>
-          setItems((prev) =>
-            prev.map((p) =>
-              p.id === id ? { ...p, favorite: !p.favorite } : p
-            )
-          )
-        }
+        onToggleFavorite={handleToggleFavorite}
       />
     </div>
   );

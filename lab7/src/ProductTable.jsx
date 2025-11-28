@@ -1,3 +1,4 @@
+import React from 'react';
 import ProductRow from "./ProductRow";
 
 function ProductTable({ products, onToggleFavorite }) {
@@ -27,4 +28,4 @@ function ProductTable({ products, onToggleFavorite }) {
   );
 }
 
-export default ProductTable;
+export default React.memo(ProductTable);
