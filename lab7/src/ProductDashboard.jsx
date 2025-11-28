@@ -27,22 +27,23 @@ function ProductDashboard() {
         .filter((p) =>
           category === "all" ? true : p.category === category
         );
-  }, [items, filterText, category])
+  }, [items, filterText, category]);
 
   // TODO 2:
   // The total price calculation is also heavy and runs on **every render**.
   // Use `useMemo` so this expensive reduce operation only runs when
   // filteredProducts changes.
-  
-  console.log("Computing total price...");
-  const totalPrice = filteredProducts.reduce((sum, p) => {
-    // Artificial heavy computation
-    let fake = 0;
-    for (let i = 0; i < 5000; i++) {
-      fake += Math.sqrt(p.price) * Math.random();
-    }
-    return sum + p.price;
-  }, 0);
+  const totalPrice = useMemo(() => {
+    console.log("Computing total price...");
+    return filteredProducts.reduce((sum, p) => {
+      // Artificial heavy computation
+      let fake = 0;
+      for (let i = 0; i < 5000; i++) {
+        fake += Math.sqrt(p.price) * Math.random();
+      }
+      return sum + p.price;
+    }, 0);
+  }, [filteredProducts]);
 
   // TODO 3:
   // Inline event handler creates a new function **every time the component renders**.
